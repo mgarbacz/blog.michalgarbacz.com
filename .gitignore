@@ -2,3 +2,7 @@
 *.swp
 # Mac file
 .DS_STORE
+# Generated Gemfile
+Gemfile.lock
+# Generated site
+_site
