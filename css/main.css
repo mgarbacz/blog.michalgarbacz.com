@@ -158,6 +158,8 @@ a:visited { color: #a0a; }
 
 .post-content pre code {
   border: none;
+  overflow-y: scroll;
+  display: block;
 }
 
 /* terminal */
