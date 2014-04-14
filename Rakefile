@@ -1,7 +1,10 @@
 GITHUB_REPO = "mgarbacz/blog.michalgarbacz.com"
 
-desc "Publish to gh-pages"
-task :publish do
+task :build do
+  system "jekyll build"
+end
+
+task :publish => [:build] do
 
   Dir.chdir "_public" do
     system "git init"
