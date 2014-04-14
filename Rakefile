@@ -1,6 +1,8 @@
 GITHUB_REPO = "mgarbacz/blog.michalgarbacz.com"
 
 task :build do
+  # Clear _public because jekyll is failing at it
+  system "rm -rf _public"
   system "jekyll build"
 end
 
