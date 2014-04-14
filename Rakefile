@@ -4,6 +4,10 @@ task :build do
   system "jekyll build"
 end
 
+task :watch do
+  system "jekyll server --watch"
+end
+
 task :publish => [:build] do
 
   Dir.chdir "_public" do
