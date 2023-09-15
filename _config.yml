@@ -1,6 +1,6 @@
 name: LFM Software Craftsmanship
 
-markdown: redcarpet
+markdown: kramdown
 pygments: true
 
 source:      ./_source
