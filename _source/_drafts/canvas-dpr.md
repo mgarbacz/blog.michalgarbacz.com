@@ -30,26 +30,26 @@ We start with the setup of the objects and values we will need:
 ```javascript
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
-const rect = canvas.getBoundingClientRect();
 const dpr = window.devicePixelRatio;
-const size = 300; // example canvas size, we'll use a square canvas
+const width = 300; // just an example size
+const height = 300; // just an example size
 ```
 
 Now we set the width and height of the canvas to be relative to the devicePixelRatio:
 
 ```javascript
-canvas.width = size * dpr;
-canvas.height = size * dpr;
+canvas.width = width * dpr;
+canvas.height = height * dpr;
 ```
 
-And we set the CSS size of the canvas to be the logical size, independent of the devicePixelRatio:
+And we set the CSS size of the canvas to be the size we want it to be on the screen, independent of the devicePixelRatio:
 
 ```javascript
-canvas.style.width = `${size}px`;
-canvas.style.height = `${size}px`;
+canvas.style.width = `${width}px`;
+canvas.style.height = `${height}px`;
 ```
 
-We have to scale the canvas by the devicePixelRatio:
+Finally, we have to scale the canvas by the devicePixelRatio:
 
 ```javascript
 ctx.scale(dpr, dpr);
@@ -57,18 +57,24 @@ ctx.scale(dpr, dpr);
 
 Now we can draw things on this canvas, based on the 300x300 logical size, and no matter the devicePixelRatio, it will render crisply on the screen!
 
-# Followup 
-If already have a canvas on screen, can get size with
-```javascript
-const rect = canvas.getBoundingClientRect();
-canvas.width = rect.width * dpr;
-canvas.height = rect.height * dpr;
-canvas.style.width = `${rect.width}px`;
-canvas.style.height = `${rect.height}px`;
-```
+# Demo
 
-Change DPR dynamically as it changes (screen move, zoom in)
+I've created a little demonstration that compares the various scenarios possible here in order to illustrate the points being made. You can view it at [https://mgarbacz.github.io/webdev-toolbox/scaling-canvas/](https://mgarbacz.github.io/webdev-toolbox/scaling-canvas/). I draw a shape with some lines and a curve in it in three different configurations. _Note: You can only get the full idea of what this demo is presenting by viewing it on a screen that has a DPR greater than 1._
 
-Rounding errors on canvas - CSS size supports fractions, but Canvas does not.
+The __With DPR, With Scaling__ section shows a 300x300 canvas that is scaled up by the DPR on both the internal size and the context scale. You can see that the lines are crisp and the shape is drawn as if the canvas was 300x300.
 
-Throw `image-rendering: pixelated` at it
+The __W/o DPR, W/o Scaling__ section shows a 300x300 canvas that hasn't been augmented by the DPR at all. You can see that the lines are blurred in places, but otherwise the shape is drawn as if the canvas was 300x300.
+
+The __With DPR, W/o Scaling__ section shows a 300x300 canvas that is scaled up by the DPR on the internal size, but without the context scale being set. You can see that the lines are crisp, but the shape is drawn as if the canvas was 600x600.
+
+Source code for this demo can be found [here on Github](https://github.com/mgarbacz/webdev-toolbox/tree/main/scaling-canvas).
+
+# Followup
+
+There are a few things I plan to follow up on.
+
+- The DPR can change: It is worth making sure you change the scaling from the DPR dynamically as it can change when the window is moved to a screen with a different ratio or the screen is zoomed in. [MDN has an example](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio#monitoring_screen_resolution_or_zoom_level_changes) about this very thing.
+
+- Rounding errors on canvas: It turns out that the CSS size for the canvas element supports fractions, but internal canvas dimensions do not. Those get rounded. [This answer on Stackoverflow](https://stackoverflow.com/a/54027313/937718) by [spenceryue](https://stackoverflow.com/users/3624264/spenceryue) goes into detail on this issue and proposes a solution.
+
+- Throw `image-rendering: pixelated` at it: I tried this out briefly, and it seemed to work. You can toss all this DPR/scale stuff out and supposedly just add this property to the canvas element. It should prevent the anti-aliasing from creating the blurriness present from the default upscaling. I'd have to take the time to understand what it is doing and test it fully. A few vague details about it [here on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering).
