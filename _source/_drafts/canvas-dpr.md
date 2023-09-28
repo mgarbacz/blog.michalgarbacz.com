@@ -61,11 +61,19 @@ Now we can draw things on this canvas, based on the 300x300 logical size, and no
 
 I've created a little demonstration that compares the various scenarios possible here in order to illustrate the points being made. You can view it at [https://mgarbacz.github.io/webdev-toolbox/scaling-canvas/](https://mgarbacz.github.io/webdev-toolbox/scaling-canvas/). I draw a shape with some lines and a curve in it in three different configurations. _Note: You can only get the full idea of what this demo is presenting by viewing it on a screen that has a DPR greater than 1._
 
+<div style="display:flex;flex-direction:row" markdown="1">
 The __With DPR, With Scaling__ section shows a 300x300 canvas that is scaled up by the DPR on both the internal size and the context scale. You can see that the lines are crisp and the shape is drawn as if the canvas was 300x300.
+![With DPR, With Scaling Canvas Image](/img/canvas-dpr/with-dpr-with-scaling.png){: width="300px" height="300px"}
+{: .three-panel-item}
 
 The __W/o DPR, W/o Scaling__ section shows a 300x300 canvas that hasn't been augmented by the DPR at all. You can see that the lines are blurred in places, but otherwise the shape is drawn as if the canvas was 300x300.
+![Without DPR, Without Scaling Canvas Image](/img/canvas-dpr/without-dpr-without-scaling.png){: width="300px" height="300px"}
+{:.three-panel-item}
 
 The __With DPR, W/o Scaling__ section shows a 300x300 canvas that is scaled up by the DPR on the internal size, but without the context scale being set. You can see that the lines are crisp, but the shape is drawn as if the canvas was 600x600.
+![With DPR, Without Scaling Canvas Image](/img/canvas-dpr/with-dpr-without-scaling.png){: width="300px" height="300px"}
+{:.three-panel-item}
+</div>
 
 Source code for this demo can be found [here on Github](https://github.com/mgarbacz/webdev-toolbox/tree/main/scaling-canvas).
 
